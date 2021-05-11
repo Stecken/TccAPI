@@ -7,8 +7,6 @@ Options All -Indexes
 RewriteEngine On
 RewriteCond %{SCRIPTS_FILENAME} !-f
 RewriteCond %{SCRIPTS_FILENAME} !-d
-RewriteRule ^//?$ /routers.php [NC,L]
+RewriteRule ^//?$ /index.php
 RewriteRule ^api/?$ /inform.php [NC,L]
-
-ErrorDocument 404 /pages/inexistente.html
-ErrorDocument 403 /pages/erro.html
+RewriteRule ^send/?$ /insertdata.php [NC,L]
