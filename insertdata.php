@@ -1,7 +1,7 @@
 <?php
 
 
-define("SECRET_KEY", ""); //coloque sua key aqui
+define("SECRET_KEY", "");
 // inserir uma secret key para o esp32
 
     include("conectionmysql.php");
@@ -51,7 +51,7 @@ define("SECRET_KEY", ""); //coloque sua key aqui
                 $radiacao = $_GET["radiacao"];
                 $vazao = $_GET["vazao"];
 
-                $format = "INSERT INTO tcc.dados VALUES(0, %d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f)";
+                $format = "INSERT INTO id16791887_tcc.dados VALUES(0, %d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f)";
                 $sqlQuery = sprintf(
                     $format,
                     $tempo,
