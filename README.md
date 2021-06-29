@@ -31,11 +31,19 @@ Tipos de dados | Sensores
 Exemplos de requesição
 
 ````
-HTTP/1.1 GET /api/?typeTime=lastData&typeData=all
+POST / HTTP/1.1
+Host: {Sua host}
+Content-Type: application/x-www-form-urlencoded
+
+typeTime=lastData&typeData=all
 ````
 
 ````
-HTTP/1.1 GET /api/?typeTime=lastData&typeData=temperature&sensor=T1,T2
+POST / HTTP/1.1
+Host: {Sua host}
+Content-Type: application/x-www-form-urlencoded
+
+typeTime=lastData&typeData=temperature&sensor=T1,T2
 ````
 
 Exemplo de Response
