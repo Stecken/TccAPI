@@ -6,7 +6,7 @@
 
 ## Consumo da API
 
-Quando for consumir os dados da API, realize uma requesição com o método GET.
+Quando for consumir os dados da API, realize uma requesição com o método POST form encooded.
 
 Campo | Descrição
 ------|------------
@@ -56,3 +56,23 @@ Exemplo de Response
 
 ## Envio de dados
 
+Quando for consumir os dados da API, realize uma requesição com o método GET.
+
+Campo | Descrição
+------|------------
+key | Chave de acesso configurada pelo o administrador da API, somente quem possuir poderá executar o request.
+tempo | Timestamp da requesição. Não cause duplicidade de timestamp.
+t1 | Sensor 1 de temperatura. *dados em float.
+t2 | Sensor 2 de temperatura. *dados em float.
+t3 | Sensor 3 de temperatura. *dados em float.
+t4 | Sensor 4 de temperatura. *dados em float.
+t5 | Sensor 5 de temperatura. *dados em float.
+t6 | Sensor 6 de temperatura. *dados em float.
+t7 | Sensor 7 de temperatura. *dados em float.
+t8 | Sensor 8 de temperatura. *dados em float.
+t9 | Sensor 9 de temperatura. *dados em float.
+t10 | Sensor 10 de temperatura. *dados em float.
+vento | Sensor de velocidade do vento. *dados em float.
+luminosidade | Sensor de luminosidade. *dados em float.
+radiacao | Sensor de irradiação. *dados em float.
+vazao | Sensor de vazao. *dados em float.
