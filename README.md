@@ -76,3 +76,18 @@ vento | Sensor de velocidade do vento. *dados em float.
 luminosidade | Sensor de luminosidade. *dados em float.
 radiacao | Sensor de irradiação. *dados em float.
 vazao | Sensor de vazao. *dados em float.
+
+Exemplos de requesição
+
+````
+GET /?key=EXEMPLO&tempo=1980801&t1=3.4&t2=3.9&t3=3.1&t4=2.9&t5=2.3&t6=2.1&t7=2.0&t8=1.2&t9=1.7&t10=1.9&vento=1.1&luminosidade=0.9&radiacao=5.6&vazao=3.7 HTTP/1.1
+Host: {Sua host}
+````
+
+Exemplo de Response
+
+```javascript
+{
+  "a construir"
+}
+```
