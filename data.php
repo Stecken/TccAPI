@@ -1,6 +1,8 @@
 <?php
 ini_set('memory_limit', '1024M');
 include("conectionmysql.php");
+ini_set('display_errors', '0');
+
 
 /*
 inputs -> 
@@ -174,10 +176,13 @@ class InfoData {
 
         $timestampEnd = strtotime($endDate);
         $datediffEnd = ceil(($now - $timestampEnd) / 86400); // difference days between now and input date
+		
 
         //$timestampEnd = strtotime('+1 days', $timestampEnd); // adidciona 1 dia ao timestamp final
-        if (!($interval <= 3 && ($datediffInit > 0 && $datediffEnd >= 0))) {
-            exit(); // fora do intervalo de tempo custom
+        if (!($interval <= 3)) {
+			var_dump($interval, $datediffInit, $datediffEnd);
+			echo "FORA DO RANGE";
+			die();
         }
 
         $minutevalor = NULL;
@@ -232,7 +237,6 @@ class InfoData {
     private function getCustomData($typeData, $sensors)
     {
         $timeArray = $this->resolveWhichTime();
-
         $fisrtPartQuery = "SELECT id, tempo";
         $querySensors = NULL;
         foreach ($sensors as $sensor) {
@@ -243,17 +247,23 @@ class InfoData {
         $tempoInicial = $timeArray[6] - 10;
         $tempoFinal = $timeArray[7] + 10;
 
-        $sqlquery = $fisrtPartQuery . $querySensors . 
-        " FROM tcc.dados WHERE tempo BETWEEN {$tempoInicial} AND {$tempoFinal} AND tempo % {$tempSeconds} = 0 GROUP BY tempo";
+        $sqlquery = $fisrtPartQuery.$querySensors." FROM id16791887_tcc.dados WHERE tempo BETWEEN {$tempoInicial} AND {$tempoFinal} AND tempo % {$tempSeconds} = 0 GROUP BY tempo";
 
         $result = $this->dbaccess->query($sqlquery);
 
-        if ($result->num_rows > 0) {     // output data of each row   
+        if (!$result) {
+            trigger_error('Invalid query: ' . $this->dbaccess->error);
+        }
+        else if ($result->num_rows > 0) {     // output data of each row   
             $this->contentArray["code"] = 200;
 
             $count = 0;
             $tempSensors = array();
             while ($row = $result->fetch_assoc()) {
+				// não FUÇE
+                unset($tempSensors);
+                $tempSensors = array(); // limpra array de sensores
+				
                 foreach ($sensors as $sensor) {
                     $tempSensors += array($sensor => $row[$sensor]);
                     $count = $count + 1;
@@ -262,11 +272,11 @@ class InfoData {
                 $tempStemp = intval($row["tempo"]);
                 $date = new DateTime("@$tempStemp");
 
-                $this->contentArray["content"][] = array(array(
+                $this->contentArray["content"][] = array(
                     "id" => $row["id"], "tempo" => $row["tempo"], "data" =>
                     $date->format('Y-m-d H:i:s'), "sensores" =>
                     $tempSensors
-                ));
+                );
             }
         } else {
             $this->contentArray = array(
@@ -284,7 +294,7 @@ class InfoData {
         foreach ($sensors as $sensor) {
             $querySensors = $querySensors . ", {$sensor}";
         }
-        $sqlquery = $fisrtPartQuery.$querySensors." FROM tcc.dados WHERE tempo = (SELECT MAX(tempo) FROM tcc.dados)";
+        $sqlquery = $fisrtPartQuery.$querySensors." FROM id16791887_tcc.dados WHERE tempo = (SELECT MAX(tempo) FROM id16791887_tcc.dados)";
         $result = $this->dbaccess->query($sqlquery);
 
         if ($result->num_rows > 0) {     // output data of each row   
@@ -293,6 +303,9 @@ class InfoData {
             $count = 0;
             $tempSensors = array();
             while ($row = $result->fetch_assoc()) {
+                // não FUÇE
+                unset($tempSensors);
+                $tempSensors = array(); // limpra array de sensores
                 foreach ($sensors as $sensor) {
                     $tempSensors += array($sensor => $row[$sensor]);
                     $count = $count + 1;
@@ -301,11 +314,11 @@ class InfoData {
                 $tempStemp = intval($row["tempo"]);
                 $date = new DateTime("@$tempStemp");
 
-                $this->contentArray["content"][] = array(array(
+                $this->contentArray["content"][] = array(
                     "id" => $row["id"], "tempo" => $row["tempo"], "data" =>
                     $date->format('Y-m-d H:i:s'), "sensores" =>
                     $tempSensors
-                ));
+                );
             }
         } else {
             $this->contentArray = array(
@@ -338,15 +351,21 @@ class InfoData {
         //date_default_timezone_set('America/Sao_Paulo');
 
         $segundosLastData = (intval($quantData) * 60) - 10;
-        $sqlquery = $fisrtPartQuery.$querySensors." FROM tcc.dados WHERE tempo BETWEEN ((SELECT MAX(tempo) FROM tcc.dados) - {$segundosLastData}) AND (SELECT MAX(tempo) FROM tcc.dados)";
+        $sqlquery = $fisrtPartQuery.$querySensors." FROM id16791887_tcc.dados WHERE tempo BETWEEN ((SELECT MAX(tempo) FROM id16791887_tcc.dados) - {$segundosLastData}) AND (SELECT MAX(tempo) FROM id16791887_tcc.dados)";
         
         $result = $this->dbaccess->query($sqlquery);
-        if ($result->num_rows > 0) {     // output data of each row   
+        if (!$result) {
+            trigger_error('Invalid query: ' . $this->dbaccess->error);
+        }
+        else if ($result->num_rows > 0) {     // output data of each row   
             $this->contentArray["code"] = 200;
 
             $count = 0;
             $tempSensors = array();
-            while ($row = $result->fetch_assoc()) {        
+            while ($row = $result->fetch_assoc()) {  
+                // não FUÇE
+                unset($tempSensors);
+                $tempSensors = array(); // limpra array de sensores      
                 foreach ($sensors as $sensor) {
                     $tempSensors += array($sensor => $row[$sensor]);
                     $count = $count + 1;
@@ -355,11 +374,11 @@ class InfoData {
                 $tempStemp = intval($row["tempo"]);
                 $date = new DateTime("@$tempStemp");
 
-                $this->contentArray["content"][] = array(array(
+                $this->contentArray["content"][] = array(
                     "id" => $row["id"], "tempo" => $row["tempo"], "data" =>
                     $date->format('Y-m-d H:i:s'), "sensores" =>
                     $tempSensors
-                ));
+                );
             }
         } else {
             $this->contentArray = array(
